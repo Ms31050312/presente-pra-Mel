@@ -1,9 +1,120 @@
-body {
-    background-color: #ffdde1;
-    text-align: center;
-    font-family: Arial;
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-h1 {
+body {
+    height: 100vh;
+    background: linear-gradient(135deg, #ff4d6d, #5f0f40);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+}
+
+#start {
+    position: absolute;
+    animation: fade 2s;
+}
+
+button {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 30px;
+    background: #ffffff;
     color: #ff4d6d;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: 600;
+}
+
+button:hover {
+    transform: scale(1.1);
+    background: #ffe5ec;
+}
+
+#main {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    animation: fade 2s;
+}
+
+
+h1 {
+    margin-bottom: 10px;
+    font-size: 8vw;
+    font-weight: 600;
+}
+
+#texto {
+    font-size: 16px;
+    max-width: 500px;
+    min-height: 100px;
+    margin: 20px;
+    padding: 0 20px;
+    line-height: 1.5;
+}
+
+img {
+    width: 60%;
+    max-width: 250px;
+    border-radius: 20px;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: 1.5s;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+img.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.heart {
+    position: absolute;
+    color: rgba(255,255,255,0.7);
+    animation: subir 6s linear infinite;
+}
+
+@keyframes subir {
+    from {
+        transform: translateY(100vh);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-10vh);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 10vw;
+    }
+
+    #texto {
+        font-size: 15px;
+    }
+
+    button {
+        padding: 12px 25px;
+    }
 }
