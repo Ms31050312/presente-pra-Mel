@@ -1,30 +1,193 @@
+</body>
+</html>
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <title>Para o amor da minha vida 💖</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para o amor da minha vida 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    height: 100vh;
+    background: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* tela inicial */
+#start {
+    position: absolute;
+}
+
+button {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 30px;
+    background: #ff4d6d;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+/* cena principal */
+#main {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    animation: fade 2s;
+}
+
+h1 {
+    margin-bottom: 10px;
+    font-size: 8vw;
+    font-weight: 600;
+}
+
+#texto {
+    font-size: 16px;
+    max-width: 500px;
+    min-height: 100px;
+    margin: 20px;
+    padding: 0 20px;
+}
+
+/* imagem */
+img {
+    width: 60%;
+    max-width: 250px;
+    border-radius: 20px;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: 2s;
+}
+
+img.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* animações */
+@keyframes fade {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* corações */
+.heart {
+    position: absolute;
+    color: rgba(255,255,255,0.6);
+    animation: subir 6s linear infinite;
+}
+
+@keyframes subir {
+    from {transform: translateY(100vh);}
+    to {transform: translateY(-10vh);}
+}
+
+</style>
 </head>
+
 <body>
 
-<h1>Oi meu dengo 💕</h1>
+<div id="start">
+    <h1>Tenho algo pra você... 💭</h1>
+    <br>
+    <button onclick="iniciar()">Clique aqui 💖</button>
+</div>
 
-<p id="msg">Feliz pascoa minha princesa</p>
+<div id="main">
+    <h1>Oi meu dengo 💕</h1>
+    <div id="texto"></div>
+    <img id="foto" src="{{ url_for('static', filename='foto.jpg') }}">
+</div>
 
-<button onclick="mostrarMensagem()">Clique aqui</button>
-
-<p id="extra" style="display:none;">
-    Saiba que, hoje, na nossa primeira pascoa eu espero q seu dia seja incrivel meu amor, maravilhoso como voce é na minha vida
-    Eu te amo meu amor ❤️
-</p>
-
-<audio autoplay loop>
+<audio id="musica" loop>
     <source src="{{ url_for('static', filename='musica.mp3') }}" type="audio/mpeg">
 </audio>
 
 <script>
-function mostrarMensagem() {
-    document.getElementById("extra").style.display = "block";
+
+const isMobile = window.innerWidth < 768;
+
+setInterval(criarCoracao, isMobile ? 800 : 400);
+
+const mensagens = [
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"Eu te amo ❤️"
+];
+
+let i = 0;
+let j = 0;
+
+function iniciar() {
+    document.getElementById("start").style.display = "none";
+    document.getElementById("main").style.display = "flex";
+
+    document.getElementById("musica").play().catch(()=>{});
+
+    escreverTexto();
+    setInterval(criarCoracao, 800);
+    
 }
+
+function escreverTexto() {
+    if (i < mensagens.length) {
+        if (j < mensagens[i].length) {
+            document.getElementById("texto").innerHTML += mensagens[i].charAt(j);
+            j++;
+            setTimeout(escreverTexto, 40);
+        } else {
+            document.getElementById("texto").innerHTML += "<br><br>";
+            j = 0;
+            i++;
+
+            if (i === mensagens.length) {
+                document.getElementById("foto").classList.add("show");
+            }
+
+            setTimeout(escreverTexto, 1000);
+        }
+    }
+}
+
+function criarCoracao() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (10 + Math.random() * 20) + "px";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 6000);
+}
+
 </script>
 
 </body>
