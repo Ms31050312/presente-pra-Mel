@@ -100,6 +100,40 @@ img.show {
     from {transform: translateY(100vh);}
     to {transform: translateY(-10vh);}
 }
+.carrossel {
+    position: relative;
+    width: 60%;
+    max-width: 250px;
+}
+
+.carrossel img {
+    width: 100%;
+    border-radius: 20px;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: 1s;
+}
+
+.carrossel img.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.3);
+    border: none;
+    color: white;
+    font-size: 20px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.prev { left: -40px; }
+.next { right: -40px; }
 
 </style>
 </head>
@@ -115,7 +149,13 @@ img.show {
 <div id="main">
     <h1>Oi meu dengo 💕</h1>
     <div id="texto"></div>
-    <img id="foto" src="static/foto.jpg">
+    <div class="carrossel">
+    <button class="btn prev" onclick="trocarFoto(-1)">❮</button>
+    
+    <img id="foto" src="static/foto1.jpg">
+    
+    <button class="btn next" onclick="trocarFoto(1)">❯</button>
+</div>
 </div>
 
 <audio id="musica" loop>
@@ -145,15 +185,17 @@ function iniciar() {
     document.getElementById("start").style.display = "none";
     document.getElementById("main").style.display = "flex";
 
-    document.getElementById("musica").play().then(()=>{
+    const audio = document.getElementById("musica");
+
+    audio.volume = 1; // garante volume
+    audio.play().then(() => {
         console.log("tocando");
-    }).catch(()=>{
-        console.log("bloqueado");
+    }).catch((e) => {
+        console.log("erro:", e);
     });
 
     escreverTexto();
     setInterval(criarCoracao, isMobile ? 800 : 400);
-    
 }
 
 function escreverTexto() {
@@ -187,6 +229,39 @@ function criarCoracao() {
 
     setTimeout(() => heart.remove(), 6000);
 }
+
+const fotos = [
+    "static/foto1.jpg",
+    "static/foto2.jpg",
+    "static/foto3.jpg",
+    "static/foto4.jpg"
+];
+
+let fotoIndex = 0;
+
+function mostrarFoto() {
+    const img = document.getElementById("foto");
+    
+    img.classList.remove("show");
+
+    setTimeout(() => {
+        img.src = fotos[fotoIndex];
+        img.classList.add("show");
+    }, 200);
+}
+
+function trocarFoto(direcao) {
+    fotoIndex += direcao;
+
+    if (fotoIndex < 0) fotoIndex = fotos.length - 1;
+    if (fotoIndex >= fotos.length) fotoIndex = 0;
+
+    mostrarFoto();
+}
+
+setInterval(() => {
+    trocarFoto(1);
+}, 3000);
 
 </script>
 
